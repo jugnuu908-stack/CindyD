@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0e0c;
+  --color-ink-2: #10150f;
+  --color-ink-3: #161c15;
+  --color-cream: #edebe2;
+  --color-dim: #97a094;
+  --color-lime: #c6f53f;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "Instrument Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 84px;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a332b;
+  border: 3px solid var(--color-ink);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-lime);
+}
+
+/* ---------- film grain overlay ---------- */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+/* ---------- blueprint grid background ---------- */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(237, 235, 226, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(237, 235, 226, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* ---------- outline display text ---------- */
+.text-outline {
+  -webkit-text-stroke: 1.5px rgba(237, 235, 226, 0.28);
+  color: transparent;
+  transition: -webkit-text-stroke 0.5s ease, color 0.5s ease;
+}
+.text-outline-lime {
+  -webkit-text-stroke: 1.5px var(--color-lime);
+  color: transparent;
+  transition: -webkit-text-stroke 0.5s ease, color 0.5s ease;
+}
+.group:hover .text-outline,
+.hover-fill:hover .text-outline {
+  -webkit-text-stroke: 1.5px var(--color-lime);
+}
+.group:hover .text-outline-lime,
+.hover-fill:hover .text-outline-lime {
+  color: var(--color-lime);
+  -webkit-text-stroke: 1.5px var(--color-lime);
+}
+
+/* ---------- marquee ---------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+.marquee-slow {
+  animation-duration: 48s;
+}
+
+/* ---------- floating tech chips ---------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-13px) rotate(2deg); }
+}
+.float-anim {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+/* ---------- drifting blueprint grid ---------- */
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 72px 72px; }
+}
+.grid-drift {
+  animation: grid-drift 26s linear infinite;
+}
+
+/* ---------- terminal caret ---------- */
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret {
+  animation: caret-blink 1s step-end infinite;
+}
+
+/* ---------- pulsing status dot ---------- */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(198, 245, 63, 0.5); }
+  60% { box-shadow: 0 0 0 7px rgba(198, 245, 63, 0); }
+}
+.pulse-dot {
+  animation: pulse-dot 1.8s ease-out infinite;
+}
+
+/* ---------- spinning asterisk ---------- */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+/* ---------- underline slide for links ---------- */
+.link-slide {
+  position: relative;
+}
+.link-slide::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-slide:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .caret,
+  .pulse-dot,
+  .spin-slow,
+  .float-anim,
+  .grid-drift {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
