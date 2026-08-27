@@ -14,6 +14,7 @@ import Foundation from "./components/Foundation";
 import Interests from "./components/Interests";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import AIAssistant from "./components/AIAssistant";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -44,6 +45,7 @@ export default function App() {
 
       <Contact />
       <Footer />
+      <AIAssistant />
     </div>
   );
 }
